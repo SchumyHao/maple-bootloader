@@ -99,20 +99,18 @@ void setupLED(void) {
     // todo, swap out hardcoded pin/bank with macro
     u32 rwmVal; /* read-write-modify place holder var */
 
-    /* Setup APB2 (GPIOA) */
+    /* Setup APB2 (GPIOB) */
     rwmVal =  GET_REG(RCC_APB2ENR);
-    rwmVal |= 0x00000004;
+    rwmVal |= 0x00000008;
     SET_REG(RCC_APB2ENR, rwmVal);
 
-    /* Setup GPIOA Pin 5 as PP Out */
-    SET_REG(GPIO_CRL(GPIOA), 0x00100000);
+    /* Setup GPIOB Pin 1 as PP Out */
+    rwmVal =  GET_REG(GPIO_CRL(GPIOB));
+    rwmVal &= 0xFFFFFF0F;
+    rwmVal |= 0x00000010;
+    SET_REG(GPIO_CRL(GPIOB), rwmVal);
 
-    rwmVal =  GET_REG(GPIO_CRL(GPIOA));
-    rwmVal &= 0xFF0FFFFF;
-    rwmVal |= 0x00100000;
-    SET_REG(GPIO_CRL(GPIOA), rwmVal);
-
-    setPin(GPIOA, 5);
+    setPin(GPIOB, 1);
 }
 
 void setupBUTTON(void) {
